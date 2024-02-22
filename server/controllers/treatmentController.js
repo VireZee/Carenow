@@ -12,9 +12,8 @@ const treatmentController = async (req, res) => {
       cost
     });
     res.status(201).json({ success: true, data: newTreatment });
-  } catch (error) {
-    console.error('Error creating treatment:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  } catch (e) {
+    console.log
   }
 };
 module.exports = {

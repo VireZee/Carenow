@@ -8,7 +8,7 @@ const treatmentModel = async (data) => {
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `;
-  const values = [patientName, patientId, date, treatmentDescription, medicationPrescribed, cost];
+  const values = [patientName, patientId, date, [treatmentDescription], [medicationPrescribed], cost];
   const result = await pool.query(query, values);
   return result.rows[0];
 };

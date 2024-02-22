@@ -7,7 +7,7 @@ const TreatmentForm = () => {
     const { register, handleSubmit, control, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:3000/submit', data);
+            const response = await axios.post('http://localhost:5000', data);
             console.log(response.data);
         } catch (error) {
             console.error(error);
