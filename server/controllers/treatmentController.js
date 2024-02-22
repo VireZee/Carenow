@@ -1,4 +1,4 @@
-const { treatmentModel } = require('../models/treatmentModel');
+const treatmentModel = require('../models/treatmentModel');
 
 const treatmentController = async (req, res) => {
   try {
@@ -13,9 +13,7 @@ const treatmentController = async (req, res) => {
     });
     res.status(201).json({ success: true, data: newTreatment });
   } catch (e) {
-    console.log
+    console.log(e);
   }
 };
-module.exports = {
-  treatmentController
-}
+module.exports = treatmentController;

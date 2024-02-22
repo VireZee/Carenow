@@ -1,13 +1,16 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { ChakraProvider, Box, Input, Select, Button, FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
+import { ChakraProvider, Box, Input, Button, FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
+import SelectComponent from 'react-select';
 import axios from 'axios';
 
 const TreatmentForm = () => {
     const { register, handleSubmit, control, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:5000', data);
+            const tD = data.treatmentDescription.map(option => option.value);
+            const mP = data.medicationPrescribed.map(option => option.value);
+            const response = await axios.post('http://localhost:5000', { ...data, treatmentDescription: tD, medicationPrescribed: mP });
             console.log(response.data);
         } catch (error) {
             console.error(error);
@@ -42,13 +45,21 @@ const TreatmentForm = () => {
                         <Controller
                             control={control}
                             name="treatmentDescription"
-                            rules={{ required: 'Please select Treatment Description' }}
+                            rules={{ required: 'Please select at least 1 Treatment Description' }}
                             render={({ field }) => (
-                                <Select {...field} placeholder="Select Treatment Description">
-                                    <option value="c1">Class 1</option>
-                                    <option value="c2">Class 2</option>
-                                    <option value="C3">Class 3</option>
-                                </Select>
+                                <SelectComponent
+                                    placeholder="Select Treatment Description"
+                                    {...field}
+                                    isMulti
+                                    isSearchable={false}
+                                    options={[
+                                        { value: 'Treatment 1', label: 'Treatment 1' },
+                                        { value: 'Treatment 2', label: 'Treatment 2' },
+                                        { value: 'Treatment 3', label: 'Treatment 3' },
+                                        { value: 'Treatment 4', label: 'Treatment 4' },
+                                        { value: 'Treatment 5', label: 'Treatment 5' },
+                                    ]}
+                                />
                             )}
                         />
                         <FormErrorMessage>
@@ -60,13 +71,21 @@ const TreatmentForm = () => {
                         <Controller
                             control={control}
                             name="medicationPrescribed"
-                            rules={{ required: 'Please select Medication Prescribed' }}
+                            rules={{ required: 'Please select at least 1 Medication Prescribed' }}
                             render={({ field }) => (
-                                <Select {...field} placeholder="Select Medication Prescribed">
-                                    <option value="m1">Medication 1</option>
-                                    <option value="m2">Medication 2</option>
-                                    <option value="m3">Medication 3</option>
-                                </Select>
+                                <SelectComponent
+                                    placeholder="Select Medication Description"
+                                    {...field}
+                                    isMulti
+                                    isSearchable={false}
+                                    options={[
+                                        { value: 'Medication 1', label: 'Medication 1' },
+                                        { value: 'Medication 2', label: 'Medication 2' },
+                                        { value: 'Medication 3', label: 'Medication 3' },
+                                        { value: 'Medication 4', label: 'Medication 4' },
+                                        { value: 'Medication 5', label: 'Medication 5' },
+                                    ]}
+                                />
                             )}
                         />
                         <FormErrorMessage>
@@ -75,7 +94,7 @@ const TreatmentForm = () => {
                     </FormControl>
                     <FormControl mb={4} isInvalid={errors.cost}>
                         <FormLabel>Cost of Treatment</FormLabel>
-                        <Input type="number" {...register('cost', { required: 'Input costs' })} />
+                        <Input type="number" step={0.01} {...register('cost', { required: 'Input costs' })} />
                         <FormErrorMessage>{errors.cost && errors.cost.message}</FormErrorMessage>
                     </FormControl>
                     <Button type="submit" colorScheme="teal" mt={4}>

@@ -7,9 +7,9 @@ exports.up = function (knex) {
         t.bigint('patient_id').primary();
         t.string('patient_name').notNullable();
         t.date('date_of_treatment').notNullable();
-        t.specificType('treatment_description', 'text[]');
-        t.specificType('medications_prescribed', 'text[]');
-        t.float('cost');
+        t.specificType('treatment_description', 'text[]').notNullable();
+        t.specificType('medications_prescribed', 'text[]').notNullable();
+        t.float('cost').notNullable();
     });
 };
 
