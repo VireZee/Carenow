@@ -10,10 +10,10 @@ const TreatmentForm = () => {
         try {
             const tD = data.treatmentDescription.map(option => option.value);
             const mP = data.medicationPrescribed.map(option => option.value);
-            const response = await axios.post('http://localhost:5000', { ...data, treatmentDescription: tD, medicationPrescribed: mP });
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
+            await axios.post('http://localhost:5000', { ...data, treatmentDescription: tD, medicationPrescribed: mP });
+            window.location.reload();
+        } catch (e) {
+            console.log(e);
         }
     };
     return (
@@ -94,7 +94,7 @@ const TreatmentForm = () => {
                     </FormControl>
                     <FormControl mb={4} isInvalid={errors.cost}>
                         <FormLabel>Cost of Treatment</FormLabel>
-                        <Input type="number" step={0.01} {...register('cost', { required: 'Input costs' })} />
+                        <Input type="number" step={0.001} {...register('cost', { required: 'Input costs' })} />
                         <FormErrorMessage>{errors.cost && errors.cost.message}</FormErrorMessage>
                     </FormControl>
                     <Button type="submit" colorScheme="teal" mt={4}>
